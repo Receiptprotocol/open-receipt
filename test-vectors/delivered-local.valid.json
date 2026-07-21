@@ -1,0 +1,44 @@
+{
+  "spec_version": "0.1",
+  "event_id": "evt_local_settlement_completed",
+  "event_type": "settlement.completed",
+  "issuer": {
+    "id": "https://vectors.receiptprotocol.com",
+    "name": "Receipt local test vectors",
+    "metadata_url": "https://receiptprotocol.com/open-receipt/v0.1/vectors/issuer.json",
+    "verification_key": {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "x": "DAE0TDMixajqasBBGCWBZJWbfRMPTpS7VTsnqlxsQd8",
+      "kid": "open-receipt-local-vector-2026",
+      "use": "sig",
+      "alg": "EdDSA"
+    }
+  },
+  "issued_at": "2026-07-19T12:00:00.000Z",
+  "transaction_id": "txn_local_completed_001",
+  "quote_id": "quote_local_completed_001",
+  "commercial_facts": {
+    "currency": "USD",
+    "authorized_maximum": "0.05",
+    "final_charge": "0.05",
+    "seller": {
+      "id": "seller_receipt_labs",
+      "display_name": "Receipt Labs"
+    },
+    "capability": "web.search"
+  },
+  "evidence": {
+    "result_sha256": "2f3c1e62eaf22d2157071b10102464be3454975143665631df1d4a14e4769c76",
+    "provider_status": 200
+  },
+  "provenance": {
+    "provider": "Local deterministic provider fixture",
+    "execution_id": "exec_local_001",
+    "vector_kind": "local_non_production"
+  },
+  "assurance": "delivered",
+  "parent_event_hashes": [],
+  "signing_key_id": "open-receipt-local-vector-2026",
+  "signature": "eyJhbGciOiJFZERTQSIsImtpZCI6Im9wZW4tcmVjZWlwdC1sb2NhbC12ZWN0b3ItMjAyNiIsInR5cCI6Im9wZW4tcmVjZWlwdCtqd3MifQ..oZeC27xVRPNY0nj2LGIr6TrpTQpOlYEfwJ8cKY8-dBtHeJBoHz6sZ4BWwUwPSP5-defeeHJo_Sq5ZuXnz7oeBA"
+}

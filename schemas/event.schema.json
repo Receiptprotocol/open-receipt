@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://receiptprotocol.com/open-receipt/v0.1/event.schema.json",
+  "title": "Open Receipt event v0.1",
+  "description": "A portable, signed evidence event. This schema does not describe a wallet, payment rail, routing engine, remedy system, or guarantee.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spec_version",
+    "event_id",
+    "event_type",
+    "issuer",
+    "issued_at",
+    "transaction_id",
+    "quote_id",
+    "commercial_facts",
+    "evidence",
+    "provenance",
+    "assurance",
+    "parent_event_hashes",
+    "signing_key_id",
+    "signature"
+  ],
+  "properties": {
+    "spec_version": { "const": "0.1" },
+    "event_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "event_type": {
+      "enum": [
+        "quote.issued",
+        "authorization.granted",
+        "execution.attempted",
+        "validation.completed",
+        "settlement.completed",
+        "reversal.issued"
+      ]
+    },
+    "issuer": { "$ref": "#/$defs/issuer" },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "transaction_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "quote_id": { "type": ["string", "null"], "maxLength": 256 },
+    "commercial_facts": {
+      "type": "object",
+      "description": "Commercial facts such as currency, authorized maximum, final charge, and public seller identity.",
+      "additionalProperties": true
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Digests and safe evidence statements. Raw provider credentials and private payloads do not belong here.",
+      "additionalProperties": true
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Public execution provenance and configuration digests.",
+      "additionalProperties": true
+    },
+    "assurance": { "enum": ["delivered", "validated"] },
+    "parent_event_hashes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+    },
+    "signing_key_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "signature": {
+      "type": "string",
+      "description": "Detached compact JWS: BASE64URL(protected)..BASE64URL(signature).",
+      "pattern": "^[A-Za-z0-9_-]+\\.\\.[A-Za-z0-9_-]+$"
+    }
+  },
+  "$defs": {
+    "issuer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "metadata_url"],
+      "properties": {
+        "id": { "type": "string", "format": "uri" },
+        "name": { "type": "string", "maxLength": 200 },
+        "metadata_url": { "type": "string", "format": "uri" },
+        "verification_key": { "$ref": "#/$defs/publicKey" }
+      }
+    },
+    "publicKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kty", "crv", "x", "kid"],
+      "properties": {
+        "kty": { "const": "OKP" },
+        "crv": { "const": "Ed25519" },
+        "x": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$" },
+        "kid": { "type": "string", "minLength": 1 },
+        "use": { "const": "sig" },
+        "alg": { "const": "EdDSA" }
+      }
+    }
+  }
+}

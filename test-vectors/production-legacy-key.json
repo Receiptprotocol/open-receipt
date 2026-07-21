@@ -1,0 +1,8 @@
+{
+  "key_id": "receipt_signing_key_v1",
+  "algorithm": "Ed25519",
+  "public_key": "IXbXz2tybT+MbWgMyV7gf8Fp9QZArieCTsNn/Zdk+6k=",
+  "public_key_encoding": "base64",
+  "status": "active",
+  "source": "https://receiptprotocol.com/api/public/receipt-public-key"
+}

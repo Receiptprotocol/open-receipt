@@ -1,0 +1,16 @@
+{
+  "issuer": "https://vectors.receiptprotocol.com",
+  "specification": "https://receiptprotocol.com/open-receipt",
+  "keys": [
+    {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "x": "DAE0TDMixajqasBBGCWBZJWbfRMPTpS7VTsnqlxsQd8",
+      "kid": "open-receipt-local-vector-2026",
+      "use": "sig",
+      "alg": "EdDSA",
+      "status": "current",
+      "valid_from": "2026-07-19T00:00:00Z"
+    }
+  ]
+}

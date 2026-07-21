@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://receiptprotocol.com/open-receipt/v0.1/issuer.schema.json",
+  "title": "Open Receipt issuer metadata v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["issuer", "specification", "keys"],
+  "properties": {
+    "issuer": { "type": "string", "format": "uri" },
+    "specification": { "const": "https://receiptprotocol.com/open-receipt" },
+    "keys": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kty", "crv", "x", "kid", "use", "alg", "status"],
+        "properties": {
+          "kty": { "const": "OKP" },
+          "crv": { "const": "Ed25519" },
+          "x": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$" },
+          "kid": { "type": "string", "minLength": 1 },
+          "use": { "const": "sig" },
+          "alg": { "const": "EdDSA" },
+          "status": { "enum": ["current", "historical", "revoked"] },
+          "valid_from": { "type": "string", "format": "date-time" },
+          "valid_until": { "type": ["string", "null"], "format": "date-time" }
+        }
+      }
+    }
+  }
+}

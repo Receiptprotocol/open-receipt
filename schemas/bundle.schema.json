@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://receiptprotocol.com/open-receipt/v0.1/bundle.schema.json",
+  "title": "Open Receipt offline verification bundle v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["media_type", "event", "parents"],
+  "properties": {
+    "media_type": { "const": "application/open-receipt+json" },
+    "event": { "$ref": "event.schema.json" },
+    "parents": {
+      "type": "array",
+      "items": { "$ref": "event.schema.json" }
+    }
+  }
+}

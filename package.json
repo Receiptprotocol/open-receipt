@@ -1,0 +1,48 @@
+{
+  "name": "@receiptprotocol/open-receipt",
+  "version": "0.1.0",
+  "description": "Canonicalization and offline verification for Open Receipt v0.1",
+  "license": "MIT",
+  "homepage": "https://github.com/Receiptprotocol/open-receipt#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Receiptprotocol/open-receipt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Receiptprotocol/open-receipt/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "schemas",
+    "SPECIFICATION.md",
+    "README.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "bun test ./tests",
+    "check": "bun run typecheck && bun run test && bun run build",
+    "prepack": "bun run check"
+  },
+  "engines": {
+    "bun": ">=1.2.0",
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.17",
+    "typescript": "5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false
+}

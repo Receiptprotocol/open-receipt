@@ -1,0 +1,51 @@
+{
+  "amount": {
+    "currency": "USD",
+    "value": "0.50"
+  },
+  "buyer": {
+    "buyer_hash": "hmac_sha256_560c375966a1498f549558ce5c3840868be5739c4fec484f53e7d147d2946607",
+    "display": "Private"
+  },
+  "issuer": {
+    "key_id": "receipt_signing_key_v1",
+    "name": "Receipt",
+    "url": "https://receiptprotocol.com"
+  },
+  "links": {
+    "html": "https://receiptprotocol.com/receipts/rcpt_5d3065fb34d542cfb3ff0de383cd5d43",
+    "json": "https://receiptprotocol.com/api/receipts/rcpt_5d3065fb34d542cfb3ff0de383cd5d43/signed.json",
+    "verify": "https://receiptprotocol.com/verify/rcpt_5d3065fb34d542cfb3ff0de383cd5d43"
+  },
+  "outcome": {
+    "evidence_hash": "sha256_24ff3e964b529ec49ccd97a84426dc0e2023d0b354d64496faf145177bfdec49",
+    "evidence_source": "Upstream API response",
+    "status": "success"
+  },
+  "receipt_id": "rcpt_5d3065fb34d542cfb3ff0de383cd5d43",
+  "seller": {
+    "display_name": "Receipt Labs",
+    "seller_id": "seller_519a5c85-2291-437b-a4a5-f28086b72089"
+  },
+  "settlement": {
+    "platform_fee": "0.02",
+    "pricing_type": "capped",
+    "seller_earnings": "0.48",
+    "status": "settled"
+  },
+  "timestamps": {
+    "issued_at": "2026-07-07T10:30:10.568Z",
+    "settled_at": "2026-06-25T19:15:19.308215+00:00"
+  },
+  "tool": {
+    "name": "generate",
+    "operation": "generate",
+    "tool_id": "tool_generate"
+  },
+  "type": "com.receiptprotocol.receipt.v1",
+  "signature": {
+    "alg": "Ed25519",
+    "key_id": "receipt_signing_key_v1",
+    "value": "mYCothPaecAddqtE0tGBK1rCa9ETmw3TIbflttm1czxA2rTTCexasl+Szs8qqwfJ9aftEY5EQyJjWGxi+sC3BA=="
+  }
+}
