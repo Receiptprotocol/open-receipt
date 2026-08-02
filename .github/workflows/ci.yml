@@ -18,4 +18,32 @@ jobs:
           bun-version: 1.3.14
       - run: bun install --frozen-lockfile
       - run: bun run check
+      - name: Compile the TypeScript consumer example
+        run: bun run tsc --noEmit --strict --module ESNext --moduleResolution Bundler --target ES2022 --lib ES2022,DOM,DOM.Iterable --types node examples/verify.ts
+      - name: Build the browser ESM bundle
+        run: bun build ./src/index.ts --target=browser --format=esm --outfile="$RUNNER_TEMP/open-receipt.browser.js"
       - run: npm pack --dry-run
+
+  node-consumer:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          package-manager-cache: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+      - run: bun install --frozen-lockfile
+      - name: Pack and install as a Node consumer
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          mkdir "$RUNNER_TEMP/consumer"
+          cd "$RUNNER_TEMP/consumer"
+          npm init --yes
+          npm install "$RUNNER_TEMP"/receiptprotocol-open-receipt-*.tgz
+          node --input-type=module --eval 'import { canonicalize, verifyOpenReceiptTrust } from "@receiptprotocol/open-receipt"; if (canonicalize({b: 2, a: 1}) !== "{\"a\":1,\"b\":2}" || typeof verifyOpenReceiptTrust !== "function") process.exit(1)'

@@ -1,7 +1,7 @@
 {
   "name": "@receiptprotocol/open-receipt",
-  "version": "0.1.0",
-  "description": "Canonicalization and offline verification for Open Receipt v0.1",
+  "version": "0.2.1",
+  "description": "Canonicalization, historical verification, and issuer trust for Open Receipt",
   "license": "MIT",
   "homepage": "https://github.com/Receiptprotocol/open-receipt#readme",
   "repository": {
@@ -23,7 +23,6 @@
   "files": [
     "dist",
     "schemas",
-    "SPECIFICATION.md",
     "README.md"
   ],
   "scripts": {
@@ -38,8 +37,8 @@
     "node": ">=20.0.0"
   },
   "devDependencies": {
-    "@types/node": "22.19.17",
-    "typescript": "5.9.3"
+    "@types/node": "^22.16.5",
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

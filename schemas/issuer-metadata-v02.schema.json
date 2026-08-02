@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://receiptprotocol.com/open-receipt/v0.2/issuer-metadata.schema.json",
+  "title": "Open Receipt issuer metadata v0.2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "issuer",
+    "metadata_version",
+    "issued_at",
+    "next_update",
+    "previous_metadata_hash",
+    "keys",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "https://receiptprotocol.com/open-receipt/v0.2/issuer-metadata.schema.json"
+    },
+    "issuer": { "type": "string", "format": "uri", "pattern": "^https://" },
+    "metadata_version": { "type": "integer", "minimum": 1 },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "next_update": { "type": "string", "format": "date-time" },
+    "previous_metadata_hash": {
+      "oneOf": [{ "type": "null" }, { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }]
+    },
+    "keys": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/key" }
+    },
+    "signature": { "$ref": "#/$defs/signature" }
+  },
+  "$defs": {
+    "publicJwk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kty", "crv", "x", "kid"],
+      "properties": {
+        "kty": { "const": "OKP" },
+        "crv": { "const": "Ed25519" },
+        "x": { "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$" },
+        "kid": { "type": "string", "minLength": 1 },
+        "use": { "const": "sig" },
+        "alg": { "const": "EdDSA" }
+      }
+    },
+    "key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kid",
+        "purpose",
+        "alg",
+        "public_jwk",
+        "status",
+        "valid_from",
+        "valid_until",
+        "activated_at",
+        "retired_at",
+        "revoked_at",
+        "revocation_effective_from",
+        "compromised_at",
+        "compromise_effective_from",
+        "destroyed_at",
+        "replaced_by_kid",
+        "reason_code"
+      ],
+      "properties": {
+        "kid": { "type": "string", "minLength": 1 },
+        "purpose": {
+          "enum": ["open_receipt_evidence", "issuer_metadata", "issuance_log"]
+        },
+        "alg": { "const": "EdDSA" },
+        "public_jwk": { "$ref": "#/$defs/publicJwk" },
+        "status": {
+          "enum": ["preactive", "active", "retired", "revoked", "compromised", "destroyed"]
+        },
+        "valid_from": { "type": "string", "format": "date-time" },
+        "valid_until": { "type": ["string", "null"], "format": "date-time" },
+        "activated_at": { "type": ["string", "null"], "format": "date-time" },
+        "retired_at": { "type": ["string", "null"], "format": "date-time" },
+        "revoked_at": { "type": ["string", "null"], "format": "date-time" },
+        "revocation_effective_from": { "type": ["string", "null"], "format": "date-time" },
+        "compromised_at": { "type": ["string", "null"], "format": "date-time" },
+        "compromise_effective_from": { "type": ["string", "null"], "format": "date-time" },
+        "destroyed_at": { "type": ["string", "null"], "format": "date-time" },
+        "replaced_by_kid": { "type": ["string", "null"] },
+        "replacement_kid": {
+          "type": ["string", "null"],
+          "description": "Accepted alias for replaced_by_kid; canonical issuers emit replaced_by_kid."
+        },
+        "reason_code": { "type": ["string", "null"] }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kid", "alg", "value"],
+      "properties": {
+        "kid": { "type": "string", "minLength": 1 },
+        "alg": { "const": "EdDSA" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" }
+      }
+    }
+  }
+}

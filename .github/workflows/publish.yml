@@ -41,5 +41,26 @@ jobs:
         run: bun run build
       - name: Inspect package tarball
         run: npm pack --dry-run
+      - name: Check exact version on npm
+        id: registry
+        shell: bash
+        run: |
+          package_name=$(node -p 'require("./package.json").name')
+          package_version=$(node -p 'require("./package.json").version')
+          set +e
+          npm_output=$(npm view "${package_name}@${package_version}" name version dist.integrity --json 2>&1)
+          npm_status=$?
+          set -e
+          if [ "$npm_status" -eq 0 ]; then
+            PACKAGE_NAME="$package_name" PACKAGE_VERSION="$package_version" PUBLISHED_METADATA="$npm_output" node -e 'const value = JSON.parse(process.env.PUBLISHED_METADATA); if (value.name !== process.env.PACKAGE_NAME || value.version !== process.env.PACKAGE_VERSION || typeof value["dist.integrity"] !== "string") throw new Error("Published npm metadata does not match the release package")'
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Verified ${package_name}@${package_version}; npm publication will be skipped."
+          elif grep -q "E404" <<<"$npm_output"; then
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "$npm_output" >&2
+            exit "$npm_status"
+          fi
       - name: Publish public package with Trusted Publishing
+        if: steps.registry.outputs.exists != 'true'
         run: npm publish --access public --tag latest

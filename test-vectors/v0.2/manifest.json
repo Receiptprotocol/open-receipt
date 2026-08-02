@@ -1,0 +1,67 @@
+{
+  "spec_version": "0.2",
+  "description": "Deterministic conformance vector catalog. The canonical signed fixtures are constructed from fixed RFC 8032 test keys by packages/open-receipt/tests/v02.test.ts.",
+  "test_key_warning": "Test keys only. Never use these keys for production.",
+  "vectors": [
+    {
+      "id": 1,
+      "name": "active_evidence_key_trusted_issuer_fresh_metadata",
+      "expected": "valid_at_issuance",
+      "artifact": "active-evidence-key.valid.json",
+      "issuer_metadata": "issuer-metadata.valid.json"
+    },
+    { "id": 2, "name": "embedded_key_valid_issuer_untrusted", "expected": "indeterminate" },
+    { "id": 3, "name": "pinned_metadata", "expected": "valid_with_warnings" },
+    { "id": 4, "name": "https_resolved_metadata", "expected": "valid_with_warnings" },
+    {
+      "id": 5,
+      "name": "retired_key_issued_in_window",
+      "expected": "retired_key_valid_at_issuance"
+    },
+    { "id": 6, "name": "signed_after_retirement", "expected": "invalid" },
+    {
+      "id": 7,
+      "name": "signed_before_prospective_revocation",
+      "expected": "signed_before_revocation"
+    },
+    { "id": 8, "name": "signed_after_revocation", "expected": "invalid" },
+    {
+      "id": 9,
+      "name": "signed_before_compromise_valid_attestation",
+      "expected": "valid_with_warnings"
+    },
+    { "id": 10, "name": "signed_after_compromise", "expected": "invalid" },
+    { "id": 11, "name": "compromise_time_unknown", "expected": "indeterminate" },
+    { "id": 12, "name": "offline_metadata_stale", "expected": "valid_but_metadata_stale" },
+    { "id": 13, "name": "metadata_signature_tampered", "expected": "invalid" },
+    { "id": 14, "name": "metadata_hash_chain_broken", "expected": "invalid" },
+    { "id": 15, "name": "wrong_key_purpose", "expected": "invalid" },
+    { "id": 16, "name": "unknown_kid", "expected": "invalid" },
+    { "id": 17, "name": "key_not_yet_valid", "expected": "invalid" },
+    { "id": 18, "name": "key_expired", "expected": "invalid" },
+    { "id": 19, "name": "valid_issuance_log_attestation", "expected": "valid" },
+    { "id": 20, "name": "invalid_issuance_log_signature", "expected": "invalid" },
+    { "id": 21, "name": "issuance_receipt_digest_mismatch", "expected": "invalid" },
+    { "id": 22, "name": "v01_without_issuance_attestation", "expected": "valid_lower_assurance" },
+    { "id": 23, "name": "cross_purpose_signing_blocked", "expected": "blocked" },
+    { "id": 24, "name": "planned_key_rotation", "expected": "old_retired_new_preactive" },
+    {
+      "id": 25,
+      "name": "emergency_compromise_replacement",
+      "expected": "compromised_with_replacement"
+    },
+    { "id": 26, "name": "historical_receipt_after_retirement", "expected": "valid" },
+    {
+      "id": 27,
+      "name": "backdated_compromised_key_missing_attestation",
+      "expected": "indeterminate"
+    },
+    {
+      "id": 28,
+      "name": "equivalent_timestamp_representations",
+      "expected": "identical_canonical_bytes"
+    },
+    { "id": 29, "name": "invalid_timestamp", "expected": "fail_closed" },
+    { "id": 30, "name": "metadata_version_replay_or_rollback", "expected": "rejected" }
+  ]
+}
