@@ -3,6 +3,12 @@ name: Publish to npm
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing release tag to verify
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -14,6 +20,8 @@ jobs:
     environment: npm
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.release_tag }}
       - uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -28,7 +36,7 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Validate release metadata
         env:
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.release_tag }}
         run: |
           node -e 'const p = require("./package.json"); if (p.name !== "@receiptprotocol/open-receipt") throw new Error("Unexpected package name"); if (`v${p.version}` !== process.env.RELEASE_TAG) throw new Error("Release tag must match package version"); if (p.repository?.url !== "git+https://github.com/Receiptprotocol/open-receipt.git") throw new Error("Repository URL does not match provenance source")'
       - name: Typecheck
@@ -52,7 +60,7 @@ jobs:
           npm_status=$?
           set -e
           if [ "$npm_status" -eq 0 ]; then
-            PACKAGE_NAME="$package_name" PACKAGE_VERSION="$package_version" PUBLISHED_METADATA="$npm_output" node -e 'const value = JSON.parse(process.env.PUBLISHED_METADATA); if (value.name !== process.env.PACKAGE_NAME || value.version !== process.env.PACKAGE_VERSION || typeof value["dist.integrity"] !== "string") throw new Error("Published npm metadata does not match the release package")'
+            PACKAGE_NAME="$package_name" PACKAGE_VERSION="$package_version" PUBLISHED_METADATA="$npm_output" node -e 'const value = JSON.parse(process.env.PUBLISHED_METADATA); const integrity = value["dist.integrity"] ?? value.dist?.integrity; if (value.name !== process.env.PACKAGE_NAME || value.version !== process.env.PACKAGE_VERSION || typeof integrity !== "string") throw new Error("Published npm metadata does not match the release package")'
             echo "exists=true" >> "$GITHUB_OUTPUT"
             echo "Verified ${package_name}@${package_version}; npm publication will be skipped."
           elif grep -q "E404" <<<"$npm_output"; then
