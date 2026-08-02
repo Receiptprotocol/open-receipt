@@ -60,7 +60,7 @@ jobs:
           npm_status=$?
           set -e
           if [ "$npm_status" -eq 0 ]; then
-            PACKAGE_NAME="$package_name" PACKAGE_VERSION="$package_version" PUBLISHED_METADATA="$npm_output" node -e 'const value = JSON.parse(process.env.PUBLISHED_METADATA); const integrity = value["dist.integrity"] ?? value.dist?.integrity; if (value.name !== process.env.PACKAGE_NAME || value.version !== process.env.PACKAGE_VERSION || typeof integrity !== "string") throw new Error("Published npm metadata does not match the release package")'
+            PACKAGE_NAME="$package_name" PACKAGE_VERSION="$package_version" PUBLISHED_METADATA="$npm_output" node -e 'const parsed = JSON.parse(process.env.PUBLISHED_METADATA); const value = Array.isArray(parsed) ? parsed[0] : parsed; const integrity = value?.["dist.integrity"] ?? value?.dist?.integrity; if (value?.name !== process.env.PACKAGE_NAME || value?.version !== process.env.PACKAGE_VERSION || typeof integrity !== "string") throw new Error("Published npm metadata does not match the release package")'
             echo "exists=true" >> "$GITHUB_OUTPUT"
             echo "Verified ${package_name}@${package_version}; npm publication will be skipped."
           elif grep -q "E404" <<<"$npm_output"; then
