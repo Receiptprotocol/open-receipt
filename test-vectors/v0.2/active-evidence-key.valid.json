@@ -1,0 +1,43 @@
+{
+  "spec_version": "0.2",
+  "event_id": "evt_open_receipt_v02_example",
+  "event_type": "settlement.completed",
+  "issuer": {
+    "id": "https://issuer.example",
+    "name": "Open Receipt deterministic example issuer",
+    "metadata_url": "https://issuer.example/.well-known/receipt-issuer",
+    "verification_key": {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "x": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+      "kid": "example-evidence-2026-q3",
+      "use": "sig",
+      "alg": "EdDSA"
+    }
+  },
+  "issued_at": "2026-07-30T12:01:00.000Z",
+  "transaction_id": "tx_open_receipt_v02_example",
+  "quote_id": "quote_open_receipt_v02_example",
+  "commercial_facts": { "buyer_total_cents": 5, "currency": "USD" },
+  "evidence": { "delivered": true, "result_count": 1 },
+  "provenance": { "provider": "deterministic-test-provider" },
+  "assurance": "validated",
+  "parent_event_hashes": [],
+  "signing_key_id": "example-evidence-2026-q3",
+  "issuer_metadata_version": 1,
+  "issuer_metadata_hash": "sha256:3e50148f7536c1c8fc881424bc7f9363231220cd468c5fb27917d882d338dde2",
+  "issuance_attestation": {
+    "type": "open_receipt_issuance_attestation",
+    "version": 1,
+    "issuer": "https://issuer.example",
+    "sequence": 1,
+    "receipt_digest": "sha256:e19d879efd80e38a3103c1a5f45aeb3efab4f9771d6886572d08cde5772750f4",
+    "evidence_signing_key_id": "example-evidence-2026-q3",
+    "issued_at": "2026-07-30T12:01:00.000Z",
+    "previous_entry_hash": null,
+    "log_signing_key_id": "example-log-2026-q3",
+    "entry_hash": "sha256:e1a3a149c65d01abe00adde043f45161a0739f62b567cda332acb0ec57bc33b6",
+    "signature": "RH19gFdKIsPuakhfRMl6Y9F6jq_Dm--KirT3pJpRGl3tnbVxmzH1M9CQqKoFmZXjwVo0aV3MnkxuRzqtEbElBQ"
+  },
+  "signature": "eyJhbGciOiJFZERTQSIsImtpZCI6ImV4YW1wbGUtZXZpZGVuY2UtMjAyNi1xMyIsInR5cCI6Im9wZW4tcmVjZWlwdCtqd3MifQ..D5dT2vKKUMKzjv2PDj2j6PClYD2a1lkp3lwOPpTTKxpOuV4zlRzT97hzVUOXLNFuLTLoZvyt7QFBJ4DRz0U4AA"
+}

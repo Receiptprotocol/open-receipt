@@ -467,3 +467,5 @@ export async function signOpenReceipt(
   );
   return { ...unsigned, signature: `${protectedSegment}..${bytesToBase64Url(signature)}` };
 }
+
+export * from "./v02.js";

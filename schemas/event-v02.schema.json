@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://receiptprotocol.com/open-receipt/v0.2/event.schema.json",
+  "title": "Open Receipt event v0.2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spec_version",
+    "event_id",
+    "event_type",
+    "issuer",
+    "issued_at",
+    "transaction_id",
+    "quote_id",
+    "commercial_facts",
+    "evidence",
+    "provenance",
+    "assurance",
+    "parent_event_hashes",
+    "signing_key_id",
+    "issuer_metadata_version",
+    "issuer_metadata_hash",
+    "signature"
+  ],
+  "properties": {
+    "spec_version": { "const": "0.2" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "event_type": {
+      "enum": [
+        "quote.issued",
+        "authorization.granted",
+        "execution.attempted",
+        "validation.completed",
+        "settlement.completed",
+        "reversal.issued"
+      ]
+    },
+    "issuer": { "$ref": "event.schema.json#/$defs/issuer" },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "transaction_id": { "type": "string", "minLength": 1 },
+    "quote_id": { "type": ["string", "null"] },
+    "commercial_facts": { "type": "object", "additionalProperties": true },
+    "evidence": { "type": "object", "additionalProperties": true },
+    "provenance": { "type": "object", "additionalProperties": true },
+    "assurance": { "enum": ["delivered", "validated"] },
+    "parent_event_hashes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(?:sha256:)?[a-f0-9]{64}$",
+        "description": "SHA-256 reference. New events use the sha256: prefix; bare digests remain accepted for immutable early-v0.2 events."
+      },
+      "uniqueItems": true
+    },
+    "signing_key_id": { "type": "string", "minLength": 1 },
+    "issuer_metadata_version": { "type": "integer", "minimum": 1 },
+    "issuer_metadata_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "issuance_attestation": { "$ref": "issuance-attestation.schema.json" },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+\\.\\.[A-Za-z0-9_-]+$"
+    }
+  }
+}
